@@ -1,18 +1,27 @@
 import { useState, useEffect } from "react";
-import { Container } from "react-bootstrap";
-
-const AUTH_URL =
-  "https://accounts.spotify.com/authorize?client_id=&response_type=code&redirect_uri=http://localhost:3000&scope=streaming%20playlist-read-private%20ugc-image-upload%20playlist-modify-private%20playlist-modify-public%20user-read-email";
+import { Button, Container } from "react-bootstrap";
+import { useSession, signIn } from "next-auth/react";
 
 export default function Login() {
-  return (
-    <Container
-      className="d-flex justify-content-center align-items-center"
-      style={{ minHeight: "100vh" }}
-    >
-      <a className="btn btn-success btn-lg" href={AUTH_URL}>
-        Click Me!
-      </a>
-    </Container>
-  );
+  const { data: session } = useSession();
+
+  if (session) {
+    return (
+      <Container
+        className="d-flex justify-content-center align-items-center"
+        style={{ minHeight: "100vh" }}
+      >
+        <p>{session?.token?.email}</p>
+      </Container>
+    );
+  } else {
+    return (
+      <Container
+        className="d-flex justify-content-center align-items-center"
+        style={{ minHeight: "100vh" }}
+      >
+        <Button onClick={()=>{signIn()}}>Sign In!</Button>
+      </Container>
+    );
+  }
 }
