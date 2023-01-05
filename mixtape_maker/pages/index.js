@@ -1,10 +1,13 @@
-import Login from './login'
-
+import Login from "./login";
+import Profile from "./profile";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
-  return (
-    <div>
-    <Login/>
-    </div>
-  )
+  const { data: session } = useSession();
+
+  if (session) {
+    return <Profile />;
+  } else {
+    return <Login />;
+  }
 }
