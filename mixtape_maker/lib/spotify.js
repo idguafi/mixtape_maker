@@ -8,7 +8,9 @@ const scopes = [
   "playlist-modify-public",
   "playlist-read-collaborative",
   "user-read-email",
-  "user-library-read"
+  "user-top-read",
+  "user-library-read",
+  "user-read-recently-played",
 ].join(",");
 
 const params = {
