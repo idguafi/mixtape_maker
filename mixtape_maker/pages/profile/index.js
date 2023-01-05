@@ -7,9 +7,7 @@ import useSpotify from "../../hooks/useSpotify";
 export default function Profile() {
   const spotifyApi = useSpotify();
   const { data: session } = useSession();
-  const [playlists, setPlaylists] = useState("Empty");
-
-  console.log(playlists)
+  const [playlists, setPlaylists] = useState(null);
 
   useEffect(() => {
     if (spotifyApi.getAccessToken()) {
@@ -19,9 +17,22 @@ export default function Profile() {
     }
   }, [session, spotifyApi]);
 
+
   return (
-    <Container className="d-flex  align-items-center">
-      <h1>Welcome, {session?.user.name}!</h1>
+    <Container>
+      <h1 className="text-center">Welcome, {session?.user.name}!</h1>
+      <h2 className="text-center">Your current playlists: </h2>
+      <table>
+      {playlists?.map((playlist) => {
+        return (
+          <tr>
+          <td key={playlist.id}>
+            <p>{playlist.name}</p>    
+          </td>
+          </tr>
+        );
+      })}
+    </table>
       <Container
         className="d-flex justify-content-center align-items-center"
         style={{ minHeight: "100vh" }}
