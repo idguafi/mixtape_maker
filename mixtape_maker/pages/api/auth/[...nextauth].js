@@ -1,6 +1,10 @@
 import NextAuth from "next-auth";
 import SpotifyProvider from "next-auth/providers/spotify";
 import spotifyApi, { LOGIN_URL } from "../../../lib/spotify";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import prisma from "../../../lib/prismadb";
+import { FirestoreAdapter } from "@next-auth/firebase-adapter"
+import app from "../../../lib/firestoredb"
 
 async function refreshAccessToken(token) {
   try {
@@ -22,6 +26,30 @@ async function refreshAccessToken(token) {
 }
 
 export default NextAuth({
+
+  session:{
+  // Choose how you want to save the user session.
+  // The default is `"jwt"`, an encrypted JWT (JWE) stored in the session cookie.
+  // If you use an `adapter` however, we default it to `"database"` instead.
+  // You can still force a JWT session by explicitly defining `"jwt"`.
+  // When using `"database"`, the session cookie will only contain a `sessionToken` value,
+  // which is used to look up the session in the database.
+  strategy: "jwt",
+
+  // Seconds - How long until an idle session expires and is no longer valid.
+  maxAge: 30 * 24 * 60 * 60, // 30 days
+
+  // Seconds - Throttle how frequently to write to database to extend a session.
+  // Use it to limit write operations. Set to 0 to always update the database.
+  // Note: This option is ignored if using JSON Web Tokens
+  updateAge: 24 * 60 * 60, // 24 hours
+  
+  // The session token is usually either a random UUID or string, however if you
+  // need a more customized session token string, you can define your own generate function.
+  },
+
+
+
   // Configure one or more authentication providers
   providers: [
     SpotifyProvider({
@@ -31,8 +59,16 @@ export default NextAuth({
     }),
     // ...add more providers here
   ],
-  secret: process.env.JWT_SECRET,
+  secret:process.env.JWT_SECRET,
 
+  adapter: FirestoreAdapter({
+    apiKey: "AIzaSyCyGy76c5HSbt_SwOKHGoTTipfLMJmKpZ4",
+    authDomain: "mixtapemaker-84e36.firebaseapp.com",
+    projectId: "mixtapemaker-84e36",
+    storageBucket: "mixtapemaker-84e36.appspot.com",
+    messagingSenderId: "559364633850",
+    appId: "1:559364633850:web:82d7d81363f5011a824543"
+  }),
 
   callbacks: {
     async jwt({ token, account, user }) {
@@ -50,16 +86,18 @@ export default NextAuth({
       if (Date.now() < token.accessTokenExpires) {
         //check if session has expired, and return previous token if not.
         return token;
-      } else {
-        return await refreshAccessToken(token);
-      }
+      
+      } 
+      return await refreshAccessToken(token);
+
     },
     async session({ session, token }) {
-      session.user.accessToken = token.accessToken;
-      session.user.refreshToken = token.refreshToken;
-      session.user.username = token.username;
 
-      return session 
+        session.user.accessToken = token.accessToken;
+        session.user.refreshToken = token.refreshToken;
+        session.user.username = token.username;
+
+      return session;
     },
   },
 });
