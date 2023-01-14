@@ -7,7 +7,5 @@ export default function Home() {
 
   if (session) {
     return <Profile />;
-  } else {
-    return <Login />;
   }
 }

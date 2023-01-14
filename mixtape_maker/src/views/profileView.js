@@ -38,18 +38,6 @@ export default function ProfileView(props) {
           })}
         </div>
       </Container>
-      <div className="container">
-        <div className="col-md-12 text-center position-absolute top-50 start-0 translate-middle-y">
-          <Button
-            onClick={() => {
-              signOut({ callbackUrl: "/" });
-            }}
-            className=" justify-content-center align-items-center"
-          >
-            Sign Out!
-          </Button>
-        </div>
-      </div>
     </>
   );
 }

@@ -12,7 +12,7 @@ export default function Profile() {
   const [playlists, setPlaylists] = useState(null);
 
   useEffect(() => {
-    sendMessageToUser(session?.user.sub, "Hi, I want to be your friend", "user 2")
+    sendMessageToUser(session?.user.sub, playlists?playlists[0]:"", "user 2")
     userPlaylistsToDb(playlists, session?.user.sub);
   }, [playlists]);  
 
