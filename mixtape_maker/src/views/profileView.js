@@ -6,10 +6,11 @@ export default function ProfileView(props) {
     <>
       <Container
         className="justify-content-center align-items-center"
-        style={{ minHeight: "100vh" }}
+        style={{ minHeight: "50vh" }}
       >
-        <h1 className="text-center ">Welcome, {props.user.name}!</h1>
-        <h2 className="text-center">Your current playlists: </h2>
+        <br></br>
+        <h1 className="text-center">YOUR_MXTPS:</h1>
+        <br></br>
         <div className="container d-flex gap-2">
           {props.playlists?.map((playlist) => {
             return (
