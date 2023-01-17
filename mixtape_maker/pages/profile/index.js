@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import useSpotify from "../../hooks/useSpotify";
 import { userPlaylistsToDb, sendMessageToUser } from "../../lib/firestoredb";
+import Loading from "../../src/views/loading";
 import ProfileView from "../../src/views/profileView";
 
 export default function Profile() {
@@ -12,9 +13,12 @@ export default function Profile() {
   const [playlists, setPlaylists] = useState(null);
 
   useEffect(() => {
-    sendMessageToUser(session?.user.sub, playlists?playlists[0]:"", "user 2")
-    userPlaylistsToDb(playlists, session?.user.sub);
-  }, [playlists]);  
+    if (playlists) {
+      userPlaylistsToDb(playlists, session?.user.sub);
+    } else {
+      return;
+    }
+  }, [playlists]);
 
   useEffect(() => {
     if (spotifyApi.getAccessToken()) {
@@ -26,7 +30,11 @@ export default function Profile() {
 
   return (
     <>
-    <ProfileView user={session?.user} playlists={playlists}/>
+      {!playlists ? (
+        <Loading />
+      ) : (
+        <ProfileView user={session?.user} playlists={playlists} />
+      )}
     </>
   );
 }

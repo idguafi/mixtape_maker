@@ -12,6 +12,7 @@ export default function ProfileView(props) {
         <h1 className="text-center">YOUR_MXTPS:</h1>
         <br></br>
         <div className="container d-flex gap-2">
+
           {props.playlists?.map((playlist) => {
             return (
               <div className="row">

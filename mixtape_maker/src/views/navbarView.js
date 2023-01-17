@@ -5,11 +5,21 @@ export default function NavbarView(props) {
     <>
       <nav className="navbar navbar-expand-lg bg-grey">
         <div className="container">
-          <a className="navbar-brand" href="#">
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navmenu"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          <a className="navbar-brand" href="/profile">
             MXTP_MKR.WAV
           </a>
-          <div className="container">
-            <ul className="navbar-nav">
+
+          <div className="collapse navbar-collapse" id="navmenu">
+            <ul className="navbar-nav ms-auto">
               <li className="nav-item">
                 {props.loggedIn ? (
                   <a
@@ -35,11 +45,16 @@ export default function NavbarView(props) {
                   </a>
                 )}
               </li>
-              <li>
-                <a className="position-absolute nav-link active" href="#">
+              <li className="nav-item">
+                <a className="nav-link active" href="/create">
+                  NEW_MXTP
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link active" href="#">
                   INBOX
-                  <span className="position-absolute badge top-0 start-100  text-bg-secondary p-1 bg-dark">
-                    {props.messages?.length > 0 ? props.messages.length:""}
+                  <span className="badge top-0 start-100  text-bg-secondary p-1 bg-dark">
+                    {props.messages?.length > 0 ? props.messages.length : ""}
                     <span className="visually-hidden">unread messages</span>
                   </span>
                 </a>
