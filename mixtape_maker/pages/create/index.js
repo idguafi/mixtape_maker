@@ -10,35 +10,55 @@ export default function Create() {
   const [artistFieldState, setArtistField] = useState("");
   const [titleFieldState, setTitleField] = useState("");
 
-  function search(){
-    const payload = JSON.stringify({artist: artistFieldState, title:titleFieldState})
-    setArtistField("")
-    setTitleField("")
-
-    if (spotifyApi.getAccessToken()) {
-      spotifyApi.searchTracks(payload).then(
-        function (data) {
-          if (
-            tracks.some((track) => track.id === data.body.tracks.items[0].id)
-          ) {
-            return;
-          } else {
-            data.body.tracks.items.map((track)=>{track.name.toLowerCase().includes(payload.title?.toLowerCase()) ? console.log(track):console.log("no")})
-            setTracks([...tracks, data.body.tracks.items[0]]);
-          }
-        },
-        function (err) {
-          console.log("Something went wrong!", err);
-        }
-      );
-    }
+  function removeTrack(trackToRemove) {
+    setTracks([...tracks.filter((track) => track !== trackToRemove)]);
   }
 
+  function search() {
+    async function makePayload() {
+      const payload = await JSON.stringify({
+        artist: artistFieldState,
+        title: titleFieldState,
+      });
+      return payload;
+    }
+    if (spotifyApi.getAccessToken()) {
+      makePayload()
+        .then((payload) => {
+          spotifyApi.searchTracks(payload).then(function (data) {
+            if (
+              tracks.some((track) => track.id === data.body.tracks.items[0].id) //Checking whether or not the song is already stored.
+            ) {
+              return;
+            } else {
+              setTracks([
+                ...tracks,
+                data.body.tracks.items.filter(
+                  (track) =>
+                    track.name
+                      .toLowerCase()
+                      .includes(titleFieldState.toLowerCase()) &&
+                    track.artists.filter(
+                      (artist) =>
+                        artist.name.toLowerCase() ===
+                        artistFieldState.toLowerCase()
+                    ).length > 0
+                )[0],
+              ]); //Had to use the stored title field state to search for the specific song title. Wasn't getting the title from the payload as the promise had not yet resolved at this point. Will look into it later though...
+            }
+          });
+        })
+        .catch((e) => console.log(e));
+    }
+    setArtistField("");
+    setTitleField("");
+  }
 
   return (
     <CreateView
       tracks={tracks}
       search={search}
+      removeTrack={removeTrack}
       titleFieldState={titleFieldState}
       artistFieldState={artistFieldState}
       setArtistField={(data) => setArtistField(data.target.value)}

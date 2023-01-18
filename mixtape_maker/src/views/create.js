@@ -33,6 +33,7 @@ export default function CreateView(props) {
                 <th scope="col">Artist</th>
                 <th scope="col">Title</th>
                 <th scope="col">Duration</th>
+                <th scope="col">Remove</th>
               </tr>
             </thead>
             {props.tracks?.map((track, index) => {
@@ -43,6 +44,11 @@ export default function CreateView(props) {
                     <td>{track.artists[0].name}</td>
                     <td>{track.name}</td>
                     <td>{millisToMinutesAndSeconds(track.duration_ms)}</td>
+                    <td>
+                      <button onClick={() => props.removeTrack(track)}>
+                        X
+                      </button>
+                    </td>
                   </tr>
                 </tbody>
               );
