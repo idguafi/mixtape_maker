@@ -20,7 +20,7 @@ export default function CreateView(props) {
           value={props.titleFieldState}
           onChange={props.setTitleField}
         ></input>
-        <button className="search" onClick={props.search}>
+        <button className="btn btn-dark btn-sm" onClick={props.search}>
           search
         </button>
       </div>
@@ -28,6 +28,17 @@ export default function CreateView(props) {
         <div className="table text-center">
           <table className="table table-sm">
             <thead>
+              <tr>
+                  <div className="input-group w-50">
+                    <input class="form-control" placeholder="send to: "></input>
+                    <button
+                      disabled={props.tracks?.length > 0 ? false : true}
+                      class="btn btn-dark btn-sm"
+                    >
+                      send
+                    </button>
+                  </div>
+              </tr>
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Artist</th>
@@ -45,7 +56,10 @@ export default function CreateView(props) {
                     <td>{track.name}</td>
                     <td>{millisToMinutesAndSeconds(track.duration_ms)}</td>
                     <td>
-                      <button onClick={() => props.removeTrack(track)}>
+                      <button
+                        className="btn btn-sm-dark btn-sm"
+                        onClick={() => props.removeTrack(track)}
+                      >
                         X
                       </button>
                     </td>
@@ -53,6 +67,7 @@ export default function CreateView(props) {
                 </tbody>
               );
             })}
+            <tfoot></tfoot>
           </table>
         </div>
       </div>
