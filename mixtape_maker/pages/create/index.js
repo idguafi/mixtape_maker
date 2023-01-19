@@ -22,11 +22,11 @@ export default function Create() {
       session?.user.sub,
       { playlistTitle: playlistTitle, tracks: tracks },
       userName
-    ).then(()=>{
-      setTracks([])
-    })
-    setUserName("")
-    setPlaylistTitle("")
+    ).then(() => {
+      setTracks([]);
+    });
+    setUserName("");
+    setPlaylistTitle("");
   }
 
   function search() {
@@ -44,15 +44,15 @@ export default function Create() {
               track.name.toLowerCase() === titleFieldState.toLowerCase()
           )
         )
-        .then((data) =>
-          data.filter(
-            (track) =>
-              track.artists.filter(
-                (artist) =>
-                  artist.name.toLowerCase() === artistFieldState.toLowerCase()
-              ).length > 0
-          )
-        )
+        .then((data) => {
+          const new_Data = data.filter((track) =>
+            track.artists.some(
+              (artist) =>
+                artist.name.toLowerCase() === artistFieldState.toLowerCase()
+            )
+          );
+          return new_Data;
+        })
         .then(
           (data) =>
             new Promise(function (resolve, reject) {
