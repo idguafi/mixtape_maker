@@ -29,17 +29,6 @@ export default function CreateView(props) {
           <table className="table table-sm">
             <thead>
               <tr>
-                  <div className="input-group w-50">
-                    <input class="form-control" placeholder="send to: "></input>
-                    <button
-                      disabled={props.tracks?.length > 0 ? false : true}
-                      class="btn btn-dark btn-sm"
-                    >
-                      send
-                    </button>
-                  </div>
-              </tr>
-              <tr>
                 <th scope="col">#</th>
                 <th scope="col">Artist</th>
                 <th scope="col">Title</th>
@@ -67,7 +56,6 @@ export default function CreateView(props) {
                 </tbody>
               );
             })}
-            <tfoot></tfoot>
           </table>
         </div>
       </div>

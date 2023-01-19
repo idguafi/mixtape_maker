@@ -62,6 +62,7 @@ export default function Create() {
 
   return (
     <>
+      <div>
         <CreateView
           tracks={tracks}
           search={search}
@@ -72,7 +73,7 @@ export default function Create() {
           setArtistField={(data) => setArtistField(data.target.value)}
           setTitleField={(data) => setTitleField(data.target.value)}
         />
-
+      </div>
     </>
   );
 }
