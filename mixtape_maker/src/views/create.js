@@ -88,7 +88,7 @@ export default function CreateView(props) {
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="staticBackdropLabel">
-                Send To:
+                send_to:
               </h5>
               <button
                 type="button"
@@ -97,7 +97,23 @@ export default function CreateView(props) {
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">...</div>
+            <div class="modal-body">
+              <div class="input">
+                <input
+                  class="form-control"
+                  placeholder="playlist_title:"
+                  value={props.playlistTitle}
+                  onChange={props.setPlaylistTitle}
+                ></input>
+                <br></br>
+                <input
+                  class="form-control"
+                  placeholder="user_name:"
+                  value={props.userName}
+                  onChange={props.setUserNameField}
+                ></input>
+              </div>
+            </div>
             <div class="modal-footer">
               <button
                 type="button"
@@ -106,8 +122,8 @@ export default function CreateView(props) {
               >
                 Close
               </button>
-              <button type="button" class="btn btn-dark">
-                Understood
+              <button type="button" class="btn btn-dark" disabled={props.userName && props.playlistTitle?false:true} onClick={props.send}>
+                Send
               </button>
             </div>
           </div>

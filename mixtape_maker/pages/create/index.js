@@ -2,6 +2,7 @@ import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import useSpotify from "../../hooks/useSpotify";
 import CreateView from "../../src/views/create";
+import { sendMessageToUser } from "../../lib/firestoredb";
 
 export default function Create() {
   const [tracks, setTracks] = useState([]);
@@ -9,9 +10,15 @@ export default function Create() {
   const { data: session } = useSession();
   const [artistFieldState, setArtistField] = useState("");
   const [titleFieldState, setTitleField] = useState("");
+  const [userName, setUserName] = useState("")
+  const [playlistTitle, setPlaylistTitle] = useState("")
 
   function removeTrack(trackToRemove) {
     setTracks([...tracks.filter((track) => track !== trackToRemove)]);
+  }
+
+  function send(){
+    sendMessageToUser(session?.user.sub, {playlistTitle:playlistTitle, tracks:tracks}, userName)
   }
 
   function search() {
@@ -63,12 +70,17 @@ export default function Create() {
     <>
         <CreateView
           tracks={tracks}
+          send={send}
           search={search}
           removeTrack={removeTrack}
           titleFieldState={titleFieldState}
           artistFieldState={artistFieldState}
+          userName={userName}
+          playlistTitle={playlistTitle}
           setArtistField={(data) => setArtistField(data.target.value)}
           setTitleField={(data) => setTitleField(data.target.value)}
+          setUserNameField={(data)=> setUserName(data.target.value)}
+          setPlaylistTitle={(data)=>setPlaylistTitle(data.target.value)}
         />
     </>
   );
