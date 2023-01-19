@@ -21,40 +21,41 @@ export default function Create() {
   }
 
   function search() {
-    async function makePayload() {
-      const payload = await JSON.stringify({
-        artist: artistFieldState,
-        title: titleFieldState,
-      });
-      return payload;
-    }
+    const payload = JSON.stringify({
+      artist: artistFieldState,
+      title: titleFieldState,
+    });
     if (spotifyApi.getAccessToken()) {
-      makePayload()
-        .then((payload) => {
-          spotifyApi.searchTracks(payload).then(function (data) {
-            if (
-              tracks.some((track) => track.id === data.body.tracks.items[0].id) //Checking whether or not the song is already stored.
-            ) {
-              return;
-            } else {
-              setTracks([
-                ...tracks,
-                data.body.tracks.items.filter(
-                  (track) =>
-                    track.name
-                      .toLowerCase()
-                      .includes(titleFieldState.toLowerCase()) &&
-                    track.artists.filter(
-                      (artist) =>
-                        artist.name.toLowerCase() ===
-                        artistFieldState.toLowerCase()
-                    ).length > 0
-                )[0],
-              ]); //Had to use the stored title field state to search for the specific song title. Wasn't getting the title from the payload as the promise had not yet resolved at this point. Will look into it later though...
-            }
-          });
-        })
-        .catch((e) => console.log(e));
+      spotifyApi
+        .searchTracks(payload)
+        .then((data) => data.body.tracks.items)
+        .then((data) =>
+          data.filter(
+            (track) =>
+              track.name.toLowerCase() === titleFieldState.toLowerCase()
+          )
+        )
+        .then((data) =>
+            data.filter(
+              (track) =>
+                track.artists.filter(
+                  (artist) =>
+                    artist.name.toLowerCase() === artistFieldState.toLowerCase()
+                ).length > 0
+            )
+        )
+        .then(data => new Promise(function (resolve, reject){
+          if(data.length){
+            resolve(data[0])
+          }
+          else{
+            reject(new Error("Couldn't find the requested track!"))
+          }
+        }))
+        .then((searchResultPromise)=>{setTracks([...tracks, searchResultPromise])})
+        .catch((e) => {
+          console.log(e);
+        });
     }
     setArtistField("");
     setTitleField("");

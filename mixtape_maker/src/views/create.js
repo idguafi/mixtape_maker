@@ -36,10 +36,10 @@ export default function CreateView(props) {
                 <th scope="col">Remove</th>
               </tr>
             </thead>
-            {props.tracks?.map((track, index) => {
+            {props.tracks.map((track, index) => {
               return (
                 <tbody>
-                  <tr>
+                  <tr key={track.id}>
                     <th scope="row">{index + 1}</th>
                     <td>{track.artists[0].name}</td>
                     <td>{track.name}</td>
@@ -56,6 +56,19 @@ export default function CreateView(props) {
                 </tbody>
               );
             })}
+
+            <tfoot>
+              <tr>
+                <td>
+                  <button
+                    disabled={props.tracks.length > 0 ? false : true}
+                    class="btn btn-dark"
+                  >
+                    send
+                  </button>
+                </td>
+              </tr>
+            </tfoot>
           </table>
         </div>
       </div>
