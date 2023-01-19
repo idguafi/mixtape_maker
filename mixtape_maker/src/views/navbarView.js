@@ -14,7 +14,7 @@ export default function NavbarView(props) {
             <span className="navbar-toggler-icon"></span>
           </button>
 
-          <a className="navbar-brand" href="/profile">
+          <a className="navbar-brand" href={props.loggedIn ? "/profile" : "/"}>
             MXTP_MKR.WAV
           </a>
 
