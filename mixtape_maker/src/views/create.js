@@ -122,7 +122,12 @@ export default function CreateView(props) {
               >
                 Close
               </button>
-              <button type="button" class="btn btn-dark" disabled={props.userName && props.playlistTitle?false:true} onClick={props.send}>
+              <button
+                type="button"
+                class="btn btn-dark"
+                disabled={props.userName && props.playlistTitle ? false : true}
+                onClick={props.send}
+              >
                 Send
               </button>
             </div>
