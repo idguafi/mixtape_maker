@@ -61,8 +61,11 @@ export default function CreateView(props) {
               <tr>
                 <td>
                   <button
-                    disabled={props.tracks.length > 0 ? false : true}
+                    type="button"
                     class="btn btn-dark"
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop"
+                    disabled={props.tracks.length > 0 ? false : true}
                   >
                     send
                   </button>
@@ -70,6 +73,44 @@ export default function CreateView(props) {
               </tr>
             </tfoot>
           </table>
+        </div>
+      </div>
+      <div
+        class="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">
+                Send To:
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">...</div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary-dark"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-dark">
+                Understood
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </>
