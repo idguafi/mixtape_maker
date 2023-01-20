@@ -51,7 +51,7 @@ export default function NavbarView(props) {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" href="#">
+                <a className="nav-link active" href="/inbox">
                   INBOX
                   <span className="badge top-0 start-100  text-bg-secondary p-1 bg-dark">
                     {props.messages?.length > 0 ? props.messages.length : ""}

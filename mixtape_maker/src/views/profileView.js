@@ -1,6 +1,3 @@
-import { Button, Container } from "react-bootstrap";
-import { signOut } from "next-auth/react";
-
 export default function ProfileView(props) {
   return (
     <>
@@ -11,7 +8,7 @@ export default function ProfileView(props) {
         <div className="row  d-flex justify-content-around">
           {props.playlists?.map((playlist) => {
             return (
-              <div className="col-md-4">
+              <div className="col-sm-4">
                 <a
                   href={
                     props.user.accessToken ? playlist.external_urls.spotify : ""
@@ -22,7 +19,9 @@ export default function ProfileView(props) {
                     class="mx-auto d-block img-fluid"
                   ></img>
                 </a>
-                <p>{playlist.name}</p>
+                <br></br>
+                <h5>{playlist.name.toLowerCase() + ".wav"}</h5>
+                <br></br>
               </div>
             );
           })}

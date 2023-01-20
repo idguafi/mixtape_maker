@@ -1,9 +1,8 @@
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Button, Container } from "react-bootstrap";
 import useSpotify from "../../hooks/useSpotify";
-import { userPlaylistsToDb, sendMessageToUser } from "../../lib/firestoredb";
+import { userPlaylistsToDb } from "../../lib/firestoredb";
 import Loading from "../../src/views/loading";
 import ProfileView from "../../src/views/profileView";
 
