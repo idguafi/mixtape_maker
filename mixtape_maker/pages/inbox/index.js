@@ -39,9 +39,9 @@ export default function Inbox() {
           return data;
         })
         .then((data) => {
-          console.log(data.body.id);
           spotifyApi.addTracksToPlaylist(data.body.id, tracks);
         })
+        .then(deleteMessageFromUser(session.user.sub, nameOfMessageToBeDeleted))
         .catch((e) => console.log(e));
     }
   }

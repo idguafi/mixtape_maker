@@ -6,6 +6,7 @@ import { sendMessageToUser } from "../../lib/firestoredb";
 
 export default function Create() {
   const [tracks, setTracks] = useState([]);
+  const [uriCollection, setUriCollection] = useState([])
   const spotifyApi = useSpotify();
   const { data: session } = useSession();
   const [artistFieldState, setArtistField] = useState("");
@@ -20,7 +21,7 @@ export default function Create() {
   function send() {
     sendMessageToUser(
       session?.user.sub,
-      { playlistTitle: playlistTitle, tracks: tracks },
+      { playlistTitle: playlistTitle, tracks: uriCollection },
       userName
     ).then(() => {
       setTracks([]);
@@ -64,7 +65,10 @@ export default function Create() {
             })
         )
         .then((searchResultPromise) => {
+
           setTracks([...tracks, searchResultPromise]);
+          setUriCollection([...uriCollection, searchResultPromise.uri])
+
         })
         .catch((e) => {
           console.log(e);
