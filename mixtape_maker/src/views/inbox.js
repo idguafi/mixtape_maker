@@ -7,6 +7,7 @@ export default function InboxView(props) {
         <br></br>
         <div className="row  d-flex justify-content-around">
           {props.messages?.map((playlist) => {
+            console.log(playlist.playlistTitle)
 
             return (
               <div className="col-sm-4">

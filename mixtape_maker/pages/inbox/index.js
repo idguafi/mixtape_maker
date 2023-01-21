@@ -17,7 +17,7 @@ export default function Inbox() {
     if (session?.user) {
       getUserMessagesFromDb(session?.user.sub)
         .then((newMessages) => {
-          setMessages([...newMessages]);
+          setMessages([...Object.values(newMessages)]);
         })
         .catch((e) => {
           console.log(e);
@@ -36,15 +36,12 @@ export default function Inbox() {
       spotifyApi
         .createPlaylist(playlistTitle)
         .then(function (data) {
-            return data
+          return data;
         })
         .then((data) => {
-            console.log(data.body.id)
-          spotifyApi.addTracksToPlaylist(data.body.id, ["spotify:track:4QTwWQDW89udp0JDO2lmPI"]).then(function (data) {
-            console.log("Added tracks to playlist!");
-          });
+          console.log(data.body.id);
+          spotifyApi.addTracksToPlaylist(data.body.id, tracks);
         })
-
         .catch((e) => console.log(e));
     }
   }
