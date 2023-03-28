@@ -16,7 +16,7 @@ export default function Navbar() {
     } else {
       setMessages([]);
     }
-  }, [session?.user]);
+  }, [session?.user, messages]);
 
   return (
     <>

@@ -25,11 +25,10 @@ export default function Inbox() {
     } else {
       setMessages([]);
     }
-  }, [session?.user]);
+  }, [messages, session?.user]);
 
   function createPrivatePlaylistFromMessage(
     playlistTitle,
-    nameOfMessageToBeDeleted,
     tracks
   ) {
     if (spotifyApi.getAccessToken()) {
@@ -41,9 +40,14 @@ export default function Inbox() {
         .then((data) => {
           spotifyApi.addTracksToPlaylist(data.body.id, tracks);
         })
-        .then(deleteMessageFromUser(session.user.sub, nameOfMessageToBeDeleted))
+        .then(deleteMessageFromUser(session.user.sub, playlistTitle))
         .catch((e) => console.log(e));
     }
+  }
+
+  function deletePlaylistFromInbox(playlistTitle) {
+    setMessages(messages.filter((message) => message.title === playlistTitle)); // delete locally
+    deleteMessageFromUser(session.user.sub, playlistTitle); // delete from firebase
   }
 
   return (
@@ -54,6 +58,7 @@ export default function Inbox() {
         <InboxView
           messages={messages}
           onAccept={createPrivatePlaylistFromMessage}
+          onDelete={deletePlaylistFromInbox}
         />
       )}
     </>
