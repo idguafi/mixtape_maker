@@ -31,18 +31,18 @@ export default function Create() {
   }
 
   function search() {
-    const payload = JSON.stringify({
+    const payload = {
       artist: artistFieldState,
       title: titleFieldState,
-    });
+    };
     if (spotifyApi.getAccessToken()) {
       spotifyApi
-        .searchTracks(payload)
-        .then((data) => data.body.tracks.items)
+        .searchTracks(`track:${payload.title} artist:${payload.artist}`)
+        .then((data) => (data.body.tracks.items))
         .then((data) =>
           data.filter(
             (track) =>
-              track.name.toLowerCase() === titleFieldState.toLowerCase()
+              track.name.toLowerCase().includes(titleFieldState.toLowerCase())
           )
         )
         .then((data) => {
