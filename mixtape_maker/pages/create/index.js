@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import useSpotify from "../../hooks/useSpotify";
 import CreateView from "../../src/views/create";
-import LandingPage from "../src/views/landingPage";
+import LandingPage from "../../src/views/landingPage";
 import { sendMessageToUser } from "../../lib/firestoredb";
 
 export default function Create() {

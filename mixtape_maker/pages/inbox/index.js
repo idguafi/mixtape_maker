@@ -7,7 +7,7 @@ import {
 import useSpotify from "../../hooks/useSpotify";
 import Loading from "../../src/views/loading";
 import InboxView from "../../src/views/inbox";
-import LandingPage from "../src/views/landingPage";
+import LandingPage from "../../src/views/landingPage";
 
 export default function Inbox() {
   const spotifyApi = useSpotify();
