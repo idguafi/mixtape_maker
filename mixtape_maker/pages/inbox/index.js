@@ -7,6 +7,7 @@ import {
 import useSpotify from "../../hooks/useSpotify";
 import Loading from "../../src/views/loading";
 import InboxView from "../../src/views/inbox";
+import LandingPage from "../src/views/landingPage";
 
 export default function Inbox() {
   const spotifyApi = useSpotify();
@@ -27,10 +28,7 @@ export default function Inbox() {
     }
   }, [messages, session?.user]);
 
-  function createPrivatePlaylistFromMessage(
-    playlistTitle,
-    tracks
-  ) {
+  function createPrivatePlaylistFromMessage(playlistTitle, tracks) {
     if (spotifyApi.getAccessToken()) {
       spotifyApi
         .createPlaylist(playlistTitle)
@@ -50,17 +48,21 @@ export default function Inbox() {
     deleteMessageFromUser(session.user.sub, playlistTitle); // delete from firebase
   }
 
-  return (
-    <>
-      {!messages ? (
-        <Loading />
-      ) : (
-        <InboxView
-          messages={messages}
-          onAccept={createPrivatePlaylistFromMessage}
-          onDelete={deletePlaylistFromInbox}
-        />
-      )}
-    </>
-  );
+  if (session) {
+    return (
+      <>
+        {!messages ? (
+          <Loading />
+        ) : (
+          <InboxView
+            messages={messages}
+            onAccept={createPrivatePlaylistFromMessage}
+            onDelete={deletePlaylistFromInbox}
+          />
+        )}
+      </>
+    );
+  } else {
+    return <LandingPage />;
+  }
 }

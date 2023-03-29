@@ -2,6 +2,7 @@ import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import useSpotify from "../../hooks/useSpotify";
 import CreateView from "../../src/views/create";
+import LandingPage from "../src/views/landingPage";
 import { sendMessageToUser } from "../../lib/firestoredb";
 
 export default function Create() {
@@ -75,8 +76,8 @@ export default function Create() {
     setTitleField("");
   }
 
-  return (
-    <>
+  if (session) {
+    return (
       <CreateView
         tracks={tracks}
         send={send}
@@ -91,6 +92,10 @@ export default function Create() {
         setUserNameField={(data) => setUserName(data.target.value)}
         setPlaylistTitle={(data) => setPlaylistTitle(data.target.value)}
       />
-    </>
-  );
+    );
+
+  }
+  else{
+    return <LandingPage/>
+  }
 }
